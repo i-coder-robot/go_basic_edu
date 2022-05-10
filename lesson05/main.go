@@ -60,6 +60,34 @@ func sizeOfChar() {
 	fmt.Printf("y占用%d个字节\n", unsafe.Sizeof(y))
 }
 
+func showBool() {
+	a := true
+	b := false
+	fmt.Println("a=", a)
+	fmt.Println("b=", b)
+	fmt.Println("true && false = ", a && b)
+	fmt.Println("true || false = ", a || b)
+}
+
+func showComplex() {
+	// 内置的 complex 函数用于构建复数
+	var x complex64 = complex(1, 2)
+	var y complex128 = complex(3, 4)
+	var z complex128 = complex(5, 6)
+	fmt.Println("x = ", x)
+	fmt.Println("y = ", y)
+	fmt.Println("z = ", z)
+
+	// 内建的 real 和 imag 函数分别返回复数的实部和虚部
+	fmt.Println("real(x) = ", real(x))
+	fmt.Println("imag(x) = ", imag(x))
+	fmt.Println("y * z = ", y*z)
+
+	//x := 1 + 2i
+	//y := 3 + 4i
+	//z := 5 + 6i
+}
+
 func main() {
 	//int 32位系统占 32位，64位系统占64
 	Integer()
@@ -87,40 +115,4 @@ func main() {
 				fmt.Println(study2)
 			`
 	fmt.Println(s1)
-
-	a := true
-	b := false
-	fmt.Println("a=", a)
-	fmt.Println("b=", b)
-	fmt.Println("true && false = ", a && b)
-	fmt.Println("true || false = ", a || b)
-
-	// 内置的 complex 函数用于构建复数
-	var x complex64 = complex(1, 2)
-	var y complex128 = complex(3, 4)
-	var z complex128 = complex(5, 6)
-	fmt.Println("x = ", x)
-	fmt.Println("y = ", y)
-	fmt.Println("z = ", z)
-
-	// 内建的 real 和 imag 函数分别返回复数的实部和虚部
-	fmt.Println("real(x) = ", real(x))
-	fmt.Println("imag(x) = ", imag(x))
-	fmt.Println("y * z = ", y*z)
-
-	//x := 1 + 2i
-	//y := 3 + 4i
-	//z := 5 + 6i
-
-	s6 := []string{"Go语言极简一本通"}
-	// 追加一个元素
-	s6 = append(s6, "从0到Go语言微服务架构师")
-	// 追加两个元素
-	s6 = append(s6, "Go语言微服务架构师核心22讲", "分布式")
-	// 追加一个切片 ... 表示解包不能省略
-	s6 = append(s6, []string{"微服务", "分布式锁"}...)
-	// 在第一个位置插入一个元素
-	s6 = append([]string{"语言概述"}, s6...)
-	fmt.Println(s6) // [语言概述 Go语言极简一本通 从0到Go语言微服务架构师 Go语言微服务架构师核心22讲 分布式 微服务 分布式锁]
-
 }
