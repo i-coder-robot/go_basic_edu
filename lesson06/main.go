@@ -80,6 +80,85 @@ func arrByValue() {
 	fmt.Println(copy)
 }
 
+func createSlice() {
+	//切片[]Type，数组[n]Type
+	//方法1 声明整型切片
+	var numberList []int
+	fmt.Println(numberList)
+
+	//方法2 声明一个空切片
+	var numberListEmpty = []int{}
+	fmt.Println(numberListEmpty)
+
+	//方法3 make声明方式  make([]Type,size,cap)
+	numList := make([]int, 3, 5)
+	fmt.Println(numList)
+	//指针：是指向第一个切片元素对应的底层数组元素的地址。（切片的第一个元素不一定是数组中第一个元素）
+	//长度：切片中的元素个数。
+	//容量：从切片的开始位置到底层数据的结尾位置。
+
+	arr := [5]string{"Go语言极简一本通", "Go语言微服务架构核心22讲", "从0到Go语言微服务架构师", "微服务", "分布式"}
+	var s1 = arr[1:4] //数组变量[起始位置:结束位置]（切片中不包含结束位置的元素，也就是取值到结束位置-1）
+	fmt.Println(arr)
+	fmt.Println(s1)
+}
+
+func sliceLenAndCap() {
+	s := make([]int, 3, 5)
+	fmt.Println(len(s))
+	fmt.Println(cap(s))
+}
+
+func outOfSlice() {
+	s := make([]int, 3, 5)
+	fmt.Println(s[10])
+}
+
+func emptySlice() {
+	var numberlist []int
+	fmt.Println(numberlist == nil) //true
+
+	fmt.Println(len(numberlist) == 0) //true 判断切片是否为空
+}
+
+func modifySlice() {
+	var arr = [...]string{"Go语言极简一本通", "Go语言微服务架构核心22讲", "从0到Go语言微服务架构师"}
+	s := arr[:] //[0:len(arr)]
+	fmt.Println(arr)
+	fmt.Println(s)
+
+	s[0] = "Go语言"
+	fmt.Println(arr)
+	fmt.Println(s)
+}
+
+func appendSliceData() {
+	s := []string{"Go语言极简一本通"}
+	fmt.Println(s)
+	fmt.Println(cap(s))
+	//追加一个元素
+	s = append(s, "Go语言微服务架构核心22讲")
+	fmt.Println(s)
+	fmt.Println(cap(s))
+	//追加2个元素
+	s = append(s, "从0到Go语言微服务架构师", "分布式")
+	fmt.Println(s)
+	fmt.Println(cap(s))
+	//追加一个切片
+	s = append(s, []string{"微服务", "分布式锁"}...)
+	fmt.Println(s)
+	fmt.Println(cap(s))
+}
+
+func mSlice() {
+	numList := [][]string{
+		{"1", "Go语言极简一本通"},
+		{"2", "Go语言微服务架构核心22讲"},
+		{"3", "从0到Go语言微服务架构师"},
+	}
+	fmt.Println(numList)
+}
+
 func main() {
 
 }
