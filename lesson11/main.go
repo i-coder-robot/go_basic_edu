@@ -1,6 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io/ioutil"
+	"math/rand"
+	"net/http"
+	"time"
+)
 
 //条件分支判断语句
 func condition() {
@@ -311,7 +317,66 @@ func deferClean() {
 	*/
 }
 
+func visitUrl() {
+	url := "http://www.go-edu.cn"
+	r, err := http.Get(url)
+	defer r.Body.Close()
+	if err != nil {
+		panic(err)
+	}
+	if r.StatusCode != http.StatusOK {
+		panic(r.StatusCode)
+	}
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("请求成功...%s\n", body)
+	n := rand.Intn(10)
+	fmt.Printf("休眠 %d 秒", n)
+	time.Sleep(time.Duration(n) * time.Second)
+}
+
+func download(url string) {
+	client := &http.Client{}
+	req, _ := http.NewRequest("GET", url, nil)
+	// 自定义Header
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36")
+	req.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	req.Header.Set("Accept-Encoding", "gzip, deflate")
+	req.Header.Set("Accept-Language", "zh-CN,zh;q=0.9")
+	req.Header.Set("Cache-Control", "no-cache")
+	req.Header.Set("Connection", "keep-alive")
+	req.Header.Set("Host", "www.go-edu.cn")
+	req.Header.Set("Pragma", "no-cache")
+	req.Header.Set("Upgrade-Insecure-Requests", "1")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		panic("http get error" + err.Error())
+		return
+	}
+	//函数结束后关闭相关链接
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic("read error" + err.Error())
+
+	}
+	fmt.Println(string(body))
+	n := rand.Intn(10)
+	fmt.Printf("休眠 %d 秒", n)
+	time.Sleep(time.Duration(n) * time.Second)
+}
+
 func main() {
+	url := "http://www.go-edu.cn/"
+	for {
+		//visitUrl()
+		download(url)
+	}
+
 	//choose()
 
 	//chinese := 88
