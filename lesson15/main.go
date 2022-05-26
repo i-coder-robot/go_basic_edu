@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sync"
 )
 
 func main() {
@@ -115,11 +116,49 @@ func main() {
 	//ch5 <- true
 	//fmt.Println(<-ch5)
 
-	ch6 := make(chan bool, 1)
-	ch6 <- true
-	ch6 <- false
-	fmt.Println(<-ch6) //fatal error: all goroutines are asleep - deadlock!
+	//ch6 := make(chan bool, 1)
+	//ch6 <- true
+	//ch6 <- false
+	//fmt.Println(<-ch6) //fatal error: all goroutines are asleep - deadlock!
 
+	/*
+		waitgroup 等待一组任务结束，再执行其他业务逻辑
+
+		Add() 初始值是0，累加子协程的数量。
+		Done() 当某个子协程完成后，计数器减去1，通常用defer调用。
+		Wait() 阻塞当前协程，直到实例中的计数器归零。
+	*/
+
+	//isDone := make(chan bool)
+	//go func() {
+	//	for i := 0; i < 5; i++ {
+	//		fmt.Println(i)
+	//	}
+	//	isDone <- true
+	//}()
+	//
+	//<-isDone
+	//fmt.Println("main goroutine finished")
+
+	//初始化sync.WaitGroup
+	var wg sync.WaitGroup
+	//传入子协程的数量
+	wg.Add(3)
+	//开启子协程1
+	go DoTask(1, &wg)
+	//开启子协程2
+	go DoTask(2, &wg)
+	//开启子协程3
+	go DoTask(3, &wg)
+	//阻塞当前协程，等待所有子协程完成任务
+	wg.Wait()
+}
+
+func DoTask(taskNum int, wg *sync.WaitGroup) {
+	defer wg.Done()
+	for i := 0; i < 3; i++ {
+		fmt.Printf("task: %d: %d\n", taskNum, i)
+	}
 }
 
 func funcReceiver(c chan bool) {
